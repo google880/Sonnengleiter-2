@@ -1,1 +1,495 @@
+<!DOCTYPE html>
+<html lang="de" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sonnengleiter - Exklusive Floßvermietung am Plauer See</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <!-- Styles (Tailwind CDN) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Alpine.js (State Management) -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            navy: '#1A365D',
+                            brown: '#8B5E3C',
+                            darkBrown: '#5A3E2B',
+                            cream: '#FDFBF7',
+                            accent: '#3d5a80',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+                        serif: ['Playfair Display', 'ui-serif', 'Georgia', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style type="text/tailwindcss">
+        @layer base {
+            body {
+                @apply bg-brand-cream text-brand-navy font-sans antialiased;
+            }
+        }
+    </style>
+
+    <style>
+        @keyframes drift {
+            0% { transform: scale(1.15) rotate(0deg) translateY(0px) translateX(0); }
+            25% { transform: scale(1.15) rotate(0.1deg) translateY(-3px) translateX(0.5%); }
+            50% { transform: scale(1.15) rotate(0deg) translateY(0px) translateX(1%); }
+            75% { transform: scale(1.15) rotate(-0.1deg) translateY(3px) translateX(0.5%); }
+            100% { transform: scale(1.15) rotate(0deg) translateY(0px) translateX(0); }
+        }
+
+        .hero-animate {
+            animation: drift 20s ease-in-out infinite;
+        }
+
+        [x-cloak] { display: none !important; }
+
+        .form-input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border-radius: 0.5rem;
+            border-width: 1px;
+            border-color: rgba(90, 62, 43, 0.2);
+            background-color: rgba(253, 251, 247, 0.3);
+            font-size: 0.875rem;
+            outline: transparent;
+            transition-property: all;
+            transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+            transition-duration: 150ms;
+        }
+        .form-input:focus {
+            border-color: #8B5E3C;
+        }
+    </style>
+</head>
+<body x-data="{ 
+    isCookieAccepted: localStorage.getItem('cookie-consent') === 'true', 
+    isNavOpen: false, 
+    bookingStatus: 'idle',
+    acceptCookies() {
+        localStorage.setItem('cookie-consent', 'true');
+        this.isCookieAccepted = true;
+    },
+    handleBooking(e) {
+        e.preventDefault();
+        this.bookingStatus = 'submitting';
+        setTimeout(() => {
+            this.bookingStatus = 'success';
+        }, 1500);
+    }
+}">
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 bg-brand-navy text-brand-cream py-4 px-8 shrink-0 shadow-lg border-b border-brand-brown/10">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <div class="w-10 h-10 bg-brand-brown rounded-full flex items-center justify-center text-xl shadow-md cursor-pointer">
+                    ⚓
+                </div>
+                <h1 class="text-2xl font-bold tracking-tight uppercase">
+                    SONNEN<span class="font-light">GLEITER</span>
+                </h1>
+            </div>
+            
+            <div class="hidden md:flex gap-8 items-center uppercase text-[10px] font-semibold tracking-widest">
+                <a href="#fleet" class="hover:text-brand-brown transition-colors">Unsere Flotte</a>
+                <a href="#booking" class="hover:text-brand-brown transition-colors">Buchen</a>
+                <a href="#about" class="hover:text-brand-brown transition-colors">Über uns</a>
+                <button 
+                  @click="document.getElementById('booking').scrollIntoView({ behavior: 'smooth' })"
+                  class="px-6 py-2 bg-brand-brown text-white rounded-xl hover:bg-brand-darkBrown shadow-md transition-all font-bold"
+                >
+                  Jetzt mieten
+                </button>
+            </div>
+
+            <button class="md:hidden" @click="isNavOpen = !isNavOpen">
+                <template x-if="!isNavOpen">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-menu"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+                </template>
+                <template x-if="isNavOpen">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+                </template>
+            </button>
+        </div>
+
+        <!-- Mobile Nav -->
+        <div 
+            x-show="isNavOpen" 
+            x-cloak
+            x-transition:enter="transition ease-out duration-200"
+            x-transition:enter-start="opacity-0 scale-95"
+            x-transition:enter-end="opacity-100 scale-100"
+            x-transition:leave="transition ease-in duration-100"
+            x-transition:leave-start="opacity-100 scale-100"
+            x-transition:leave-end="opacity-0 scale-95"
+            class="md:hidden bg-brand-navy border-t border-brand-brown/20 mt-4 overflow-hidden"
+        >
+            <div class="flex flex-col gap-4 p-6">
+                <a href="#fleet" @click="isNavOpen = false">Unsere Flotte</a>
+                <a href="#booking" @click="isNavOpen = false">Buchen</a>
+                <a href="#about" @click="isNavOpen = false">Über uns</a>
+                <a href="#booking" class="text-brand-brown font-bold" @click="isNavOpen = false">Kontakt</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative h-screen overflow-hidden flex items-center justify-center text-center">
+        <div class="absolute inset-0 z-0">
+            <img 
+                src="https://images.unsplash.com/photo-1544452071-7f938f3883b6?auto=format&fit=crop&q=80&w=2000" 
+                alt="Malerische Aussicht auf den Plauer See"
+                class="w-full h-full object-cover hero-animate"
+            >
+            <div class="absolute inset-0 bg-gradient-to-t from-brand-navy via-transparent to-transparent z-10"></div>
+            <div class="absolute inset-0 bg-brand-accent opacity-20"></div>
+        </div>
+        
+        <div 
+            class="relative z-20 px-6 max-w-4xl"
+            x-init="setTimeout(() => { $el.classList.remove('opacity-0', 'translate-y-4'); $el.classList.add('opacity-100', 'translate-y-0') }, 100)"
+            class="opacity-0 translate-y-4 transition-all duration-700"
+        >
+            <h1 class="text-5xl md:text-7xl font-serif italic text-white mb-6 drop-shadow-2xl leading-tight">
+                Freiheit auf dem Wasser.
+            </h1>
+            <p class="text-lg md:text-xl text-slate-100 opacity-90 mb-10 max-w-2xl mx-auto leading-relaxed">
+                Erleben Sie unvergessliche Tage auf unseren modernen Hausflößen. Rustikaler Charme trifft auf höchsten Komfort in den schönsten Buchten am Plauer See.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-6 justify-center">
+                <button 
+                    @click="document.getElementById('booking').scrollIntoView({ behavior: 'smooth' })"
+                    class="px-8 py-4 bg-brand-brown text-white rounded-xl font-bold uppercase tracking-widest hover:bg-brand-darkBrown shadow-2xl transition-all"
+                >
+                    Verfügbarkeit prüfen
+                </button>
+                <button 
+                    @click="document.getElementById('fleet').scrollIntoView({ behavior: 'smooth' })"
+                    class="px-8 py-4 bg-white/10 text-white backdrop-blur-md rounded-xl font-bold uppercase tracking-widest hover:bg-white/20 border-2 border-white/30 transition-all"
+                >
+                    Was wir bieten
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Summary -->
+    <section class="bg-brand-navy py-16 text-brand-cream relative z-30">
+        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-12 text-center">
+            <div class="flex flex-col items-center">
+                <div class="w-16 h-16 bg-brand-brown/20 rounded-full flex items-center justify-center mb-4 text-brand-brown">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shield-check"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg>
+                </div>
+                <h3 class="text-xl font-bold mb-2">Führerscheinfrei</h3>
+                <p class="text-brand-cream/70 text-sm">Kein Bootsschein nötig. Nach einer kurzen Einweisung sind Sie der Kapitän.</p>
+            </div>
+            <div class="flex flex-col items-center">
+                <div class="w-16 h-16 bg-brand-brown/20 rounded-full flex items-center justify-center mb-4 text-brand-brown">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-map-pin"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                </div>
+                <h3 class="text-xl font-bold mb-2">Top-Lage</h3>
+                <p class="text-brand-cream/70 text-sm">Unser Hafen liegt direkt am Naturschutzgebiet. Natur pur ab der ersten Minute.</p>
+            </div>
+            <div class="flex flex-col items-center">
+                <div class="w-16 h-16 bg-brand-brown/20 rounded-full flex items-center justify-center mb-4 text-brand-brown">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check-circle-2"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="m9 12 2 2 4-4"/></svg>
+                </div>
+                <h3 class="text-xl font-bold mb-2">Voll ausgestattet</h3>
+                <p class="text-brand-cream/70 text-sm">Vom Grill bis zum Rettungsring – alles an Bord für Ihren perfekten Tag.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Fleet Section -->
+    <section id="fleet" class="py-24 px-6 max-w-7xl mx-auto">
+        <div class="text-center mb-16">
+            <h2 class="text-4xl font-bold text-brand-navy mb-4 font-serif italic">Wählen Sie Ihr Abenteuer</h2>
+            <div class="w-16 h-1 bg-brand-brown mx-auto"></div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
+            <!-- Adventure -->
+            <div class="bg-white rounded-2xl overflow-hidden shadow-2xl border-4 border-brand-darkBrown/5 flex flex-col group transition-all transform hover:-translate-y-2">
+                <div class="h-64 overflow-hidden relative">
+                    <img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&q=80&w=1000" alt="Abenteuer-Floß" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                    <div class="absolute inset-0 bg-brand-navy/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                </div>
+                <div class="p-10 flex-grow">
+                    <span class="text-[10px] uppercase opacity-60 tracking-wider font-bold mb-2 block">Kategorie</span>
+                    <h3 class="text-2xl font-bold text-brand-navy mb-4 leading-tight">Abenteuer-Floß</h3>
+                    <p class="text-gray-600 mb-8 leading-relaxed text-sm">Perfekt für Naturfreunde und Minimalisten. Kompakt, rustikal und wendig.</p>
+                    <div class="mt-2 text-xs opacity-80 grid grid-cols-1 gap-3 font-mono mb-10">
+                        <div class="flex items-center gap-3"><div class="w-1.5 h-1.5 rounded-full bg-brand-brown"></div>Bis zu 4 Personen</div>
+                        <div class="flex items-center gap-3"><div class="w-1.5 h-1.5 rounded-full bg-brand-brown"></div>Camping-WC</div>
+                        <div class="flex items-center gap-3"><div class="w-1.5 h-1.5 rounded-full bg-brand-brown"></div>Gasgrill inklusive</div>
+                        <div class="flex items-center gap-3"><div class="w-1.5 h-1.5 rounded-full bg-brand-brown"></div>Führerscheinfrei</div>
+                    </div>
+                    <button class="w-full py-4 bg-brand-brown hover:bg-brand-darkBrown text-white rounded-xl font-bold uppercase tracking-widest transition-all shadow-md flex items-center justify-center gap-2 group/btn">
+                        Ansehen <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right group-hover/btn:translate-x-1 transition-transform"><path d="m9 18 6-6-6-6"/></svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Luxury -->
+            <div class="bg-white rounded-2xl overflow-hidden shadow-2xl border-4 border-brand-darkBrown/5 flex flex-col group transition-all transform hover:-translate-y-2">
+                <div class="h-64 overflow-hidden relative">
+                    <img src="https://images.unsplash.com/photo-1569263979104-865ab7cd8d13?auto=format&fit=crop&q=80&w=1000" alt="Luxus-Hausfloß" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                    <div class="absolute inset-0 bg-brand-navy/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                </div>
+                <div class="p-10 flex-grow">
+                    <span class="text-[10px] uppercase opacity-60 tracking-wider font-bold mb-2 block">Kategorie</span>
+                    <h3 class="text-2xl font-bold text-brand-navy mb-4 leading-tight">Luxus-Hausfloß</h3>
+                    <p class="text-gray-600 mb-8 leading-relaxed text-sm">Ihr schwimmendes Hotelzimmer mit allem Komfort für entspannte Tage.</p>
+                    <div class="mt-2 text-xs opacity-80 grid grid-cols-1 gap-3 font-mono mb-10">
+                        <div class="flex items-center gap-3"><div class="w-1.5 h-1.5 rounded-full bg-brand-brown"></div>Bis zu 6 Personen</div>
+                        <div class="flex items-center gap-3"><div class="w-1.5 h-1.5 rounded-full bg-brand-brown"></div>Echte Betten</div>
+                        <div class="flex items-center gap-3"><div class="w-1.5 h-1.5 rounded-full bg-brand-brown"></div>Vollwertige Küche</div>
+                        <div class="flex items-center gap-3"><div class="w-1.5 h-1.5 rounded-full bg-brand-brown"></div>Dachterrasse</div>
+                    </div>
+                    <button class="w-full py-4 bg-brand-brown hover:bg-brand-darkBrown text-white rounded-xl font-bold uppercase tracking-widest transition-all shadow-md flex items-center justify-center gap-2 group/btn">
+                        Ansehen <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right group-hover/btn:translate-x-1 transition-transform"><path d="m9 18 6-6-6-6"/></svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Event -->
+            <div class="bg-white rounded-2xl overflow-hidden shadow-2xl border-4 border-brand-darkBrown/5 flex flex-col group transition-all transform hover:-translate-y-2">
+                <div class="h-64 overflow-hidden relative">
+                    <img src="/src/assets/images/regenerated_image_1778592856244.png" alt="Event-Floß" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                    <div class="absolute inset-0 bg-brand-navy/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                </div>
+                <div class="p-10 flex-grow">
+                    <span class="text-[10px] uppercase opacity-60 tracking-wider font-bold mb-2 block">Kategorie</span>
+                    <h3 class="text-2xl font-bold text-brand-navy mb-4 leading-tight">Event-Floß "Alte Liebe"</h3>
+                    <p class="text-gray-600 mb-8 leading-relaxed text-sm">Der ideale Ort für Firmenfeiern oder Geburtstage auf dem Wasser.</p>
+                    <div class="mt-2 text-xs opacity-80 grid grid-cols-1 gap-3 font-mono mb-10">
+                        <div class="flex items-center gap-3"><div class="w-1.5 h-1.5 rounded-full bg-brand-brown"></div>Bis zu 15 Personen</div>
+                        <div class="flex items-center gap-3"><div class="w-1.5 h-1.5 rounded-full bg-brand-brown"></div>Musikanlage</div>
+                        <div class="flex items-center gap-3"><div class="w-1.5 h-1.5 rounded-full bg-brand-brown"></div>Großer Buffet-Bereich</div>
+                        <div class="flex items-center gap-3"><div class="w-1.5 h-1.5 rounded-full bg-brand-brown"></div>Sonnendeck</div>
+                    </div>
+                    <button class="w-full py-4 bg-brand-brown hover:bg-brand-darkBrown text-white rounded-xl font-bold uppercase tracking-widest transition-all shadow-md flex items-center justify-center gap-2 group/btn">
+                        Ansehen <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right group-hover/btn:translate-x-1 transition-transform"><path d="m9 18 6-6-6-6"/></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Booking Form -->
+    <section id="booking" class="bg-brand-cream py-32 px-6">
+        <div class="max-w-6xl mx-auto bg-white shadow-2xl rounded-2xl overflow-hidden flex flex-col lg:flex-row border-2 border-brand-darkBrown/10 backdrop-blur-sm">
+          <div class="lg:w-2/5 bg-brand-navy p-12 text-brand-cream flex flex-col justify-between">
+            <div>
+              <h2 class="text-4xl font-bold mb-4 font-serif italic">Jetzt Anfragen</h2>
+              <div class="h-1 w-12 bg-brand-brown mb-8"></div>
+              <p class="mb-10 text-slate-300 leading-relaxed">
+                Planen Sie Ihre Auszeit. Wir senden Ihnen innerhalb von 24 Stunden ein unverbindliches Angebot für Ihr Wunschfloß.
+              </p>
+              <div class="space-y-8">
+                <div class="flex items-start gap-4">
+                  <div class="w-10 h-10 bg-brand-brown/20 rounded-lg flex items-center justify-center shrink-0">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-phone"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l2.27-2.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                  </div>
+                  <div>
+                    <p class="text-[10px] uppercase opacity-50 font-bold tracking-widest mb-1">Direktruf</p>
+                    <p class="font-medium">+49 (0) 123 456 789</p>
+                  </div>
+                </div>
+                <div class="flex items-start gap-4">
+                  <div class="w-10 h-10 bg-brand-brown/20 rounded-lg flex items-center justify-center shrink-0">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-mail"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                  </div>
+                  <div>
+                    <p class="text-[10px] uppercase opacity-50 font-bold tracking-widest mb-1">Schreiben Sie uns</p>
+                    <p class="font-medium">ahoi@sonnengleiter.de</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="mt-16 text-[10px] uppercase tracking-tighter opacity-40">
+              * Ihre Daten werden gemäß DSGVO verarbeitet.
+            </div>
+          </div>
+
+          <div class="lg:w-3/5 p-12 lg:p-16">
+            <div x-show="bookingStatus === 'success'" x-cloak class="h-full flex flex-col items-center justify-center text-center space-y-6">
+                <div class="w-24 h-24 bg-green-50 rounded-full flex items-center justify-center text-green-600 mb-4 border border-green-200">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check-circle-2"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="m9 12 2 2 4-4"/></svg>
+                </div>
+                <h3 class="text-3xl font-bold text-brand-navy font-serif italic">Ahoi! Ihre Nachricht ist unterwegs.</h3>
+                <p class="text-gray-500 max-w-sm mx-auto">Wir prüfen die Verfügbarkeit und melden uns umgehend bei Ihnen.</p>
+                <button 
+                  @click="bookingStatus = 'idle'"
+                  class="mt-8 px-8 py-3 bg-brand-navy text-white rounded-xl font-bold uppercase tracking-widest hover:bg-brand-accent transition-all"
+                >
+                  Zurück
+                </button>
+            </div>
+
+            <div x-show="bookingStatus !== 'success'">
+              <form @submit="handleBooking($event)" class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="md:col-span-2 flex flex-col gap-2">
+                  <label class="text-[10px] font-bold text-brand-darkBrown uppercase tracking-widest">Reisezeitraum</label>
+                  <div class="grid grid-cols-2 gap-4">
+                    <div class="relative">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-brand-brown opacity-50 lucide lucide-calendar"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
+                      <input required type="date" class="form-input pl-10" />
+                    </div>
+                    <div class="relative">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-brand-brown opacity-50 lucide lucide-calendar"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
+                      <input required type="date" class="form-input pl-10" />
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="space-y-2">
+                  <label class="text-[10px] font-bold text-brand-darkBrown uppercase tracking-widest">Gäste</label>
+                  <div class="relative">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-brand-brown opacity-50 lucide lucide-users"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                    <input required type="number" min="1" max="20" placeholder="Personen" class="form-input pl-10" />
+                  </div>
+                </div>
+                
+                <div class="space-y-2">
+                  <label class="text-[10px] font-bold text-brand-darkBrown uppercase tracking-widest">Modell</label>
+                  <div class="relative">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-brand-brown opacity-50 pointer-events-none lucide lucide-ship"><path d="M2 21c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1 .6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/><path d="M19.38 20A11.6 11.6 0 0 0 21 14l-9-4-9 4c0 2.9.94 5.34 2.38 7"/><path d="M11 13c0-2.209 1.791-4 4-4s4 1.791 4 4"/><path d="M7 11V3l4-1 4 1v2"/><path d="m11 8 4-1"/></svg>
+                    <select required class="form-input pl-10 appearance-none cursor-pointer">
+                      <option value="">Wählen...</option>
+                      <option value="adventure">Abenteuer-Floß</option>
+                      <option value="luxury">Luxus-Hausfloß</option>
+                      <option value="event">Event-Floß</option>
+                    </select>
+                  </div>
+                </div>
+                
+                <div class="md:col-span-2 space-y-2">
+                  <label class="text-[10px] font-bold text-brand-darkBrown uppercase tracking-widest">E-Mail</label>
+                  <div class="relative">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-brand-brown opacity-50 lucide lucide-mail"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                    <input required type="email" placeholder="kapitaen@meer.de" class="form-input pl-10" />
+                  </div>
+                </div>
+                
+                <div class="md:col-span-2 pt-6">
+                  <div class="flex items-start gap-3 p-4 bg-blue-50 border border-blue-100 rounded-xl mb-8 text-[11px] text-blue-900 shadow-inner">
+                    <input type="checkbox" required class="mt-1 accent-brand-brown" />
+                    <span>Ich stimme der Verarbeitung meiner Daten gemäß DSGVO zu. Wir nutzen Ihre Angaben ausschließlich zur Angebotserstellung.</span>
+                  </div>
+                  <button 
+                    :disabled="bookingStatus === 'submitting'"
+                    type="submit" 
+                    class="w-full bg-brand-brown hover:bg-brand-darkBrown text-white py-5 rounded-2xl font-bold uppercase tracking-widest shadow-xl transition-all disabled:opacity-50 hover:-translate-y-1 active:translate-y-0"
+                  >
+                    <span x-show="bookingStatus === 'submitting'">Ahoi wird gerufen...</span>
+                    <span x-show="bookingStatus !== 'submitting'">Verfügbarkeit prüfen</span>
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-brand-navy text-brand-cream pt-24 pb-12 px-8 border-t-8 border-brand-brown/10">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-16 mb-24">
+          <div class="md:col-span-2">
+            <div class="flex items-center gap-3 mb-8">
+              <div class="w-12 h-12 bg-brand-brown rounded-full flex items-center justify-center text-2xl shadow-lg">⚓</div>
+              <h1 class="text-3xl font-bold tracking-tight uppercase">SONNEN<span class="font-light">GLEITER</span></h1>
+            </div>
+            <p class="text-slate-400 max-w-sm leading-relaxed italic">
+              "Freiheit ist, wenn das Ufer langsam kleiner wird." – Wir machen Wasserwandern zum unvergesslichen Erlebnis.
+            </p>
+          </div>
+          <div>
+            <h4 class="font-bold uppercase text-xs tracking-widest text-brand-brown mb-8 underline decoration-2 underline-offset-8">Navigation</h4>
+            <ul class="space-y-4 text-slate-400 text-sm">
+              <li><a href="#" class="hover:text-white transition-colors">Startseite</a></li>
+              <li><a href="#fleet" class="hover:text-white transition-colors">Unsere Flotte</a></li>
+              <li><a href="#booking" class="hover:text-white transition-colors">Jetzt Buchen</a></li>
+              <li><a href="#" class="hover:text-white transition-colors">Routenplaner</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="font-bold uppercase text-xs tracking-widest text-brand-brown mb-8 underline decoration-2 underline-offset-8">Rechtliches</h4>
+            <ul class="space-y-4 text-slate-400 text-sm">
+              <li><a href="#" class="hover:text-white transition-colors">Impressum</a></li>
+              <li><a href="#" class="hover:text-white transition-colors">Datenschutz</a></li>
+              <li><a href="#" class="hover:text-white transition-colors">AGB</a></li>
+            </ul>
+          </div>
+        </div>
+        
+        <div class="max-w-7xl mx-auto border-t border-white/10 pt-12 flex flex-col md:flex-row justify-between items-center gap-6 text-[10px] uppercase font-bold tracking-widest text-white/30">
+          <p>© <span x-text="new Date().getFullYear()"></span> Sonnengleiter Gmbh.</p>
+          <div class="flex gap-8">
+            <span>Berlin-Brandenburg</span>
+            <span>Est. 2024</span>
+          </div>
+          <div class="flex gap-6">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="cursor-pointer hover:text-brand-brown transition-colors lucide lucide-instagram"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="cursor-pointer hover:text-brand-brown transition-colors lucide lucide-facebook"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+          </div>
+        </div>
+    </footer>
+
+    <!-- Cookie Banner -->
+    <div 
+        x-show="!isCookieAccepted" 
+        x-cloak
+        x-transition:enter="transition ease-out duration-500"
+        x-transition:enter-start="translate-y-full"
+        x-transition:enter-end="translate-y-0"
+        x-transition:leave="transition ease-in duration-300"
+        x-transition:leave-start="translate-y-0"
+        x-transition:leave-end="translate-y-full"
+        class="fixed bottom-6 left-6 right-6 z-[100]"
+    >
+        <div class="max-w-5xl mx-auto bg-white/95 backdrop-blur-xl shadow-[0_32px_64px_-12px_rgba(0,0,0,0.3)] rounded-2xl p-6 border border-brand-navy/10 flex flex-col md:flex-row items-center justify-between gap-8">
+            <div class="flex items-center gap-6 text-sm text-brand-navy">
+            <span class="text-3xl drop-shadow-md">🍪</span>
+            <p class="leading-relaxed">
+                Wir verwenden Cookies zur Optimierung Ihres Erlebnisses auf dem Wasser. Informationen finden Sie in unserer <a href="#" class="underline font-bold hover:text-brand-brown">Datenschutzerklärung</a>.
+            </p>
+            </div>
+            <div class="flex gap-3 shrink-0">
+            <button 
+                @click="acceptCookies()"
+                class="px-6 py-2.5 rounded-lg bg-slate-100 text-brand-navy text-xs font-bold uppercase tracking-widest hover:bg-slate-200 transition-all border border-slate-200"
+            >
+                Ablehnen
+            </button>
+            <button 
+                @click="acceptCookies()"
+                class="px-6 py-2.5 rounded-lg bg-brand-navy text-white text-xs font-bold uppercase tracking-widest shadow-xl hover:bg-brand-accent transition-all animate-pulse hover:animate-none"
+            >
+                Akzeptieren
+            </button>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
 
