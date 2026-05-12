@@ -83,6 +83,12 @@
     isCookieAccepted: localStorage.getItem('cookie-consent') === 'true', 
     isNavOpen: false, 
     bookingStatus: 'idle',
+    isAdminVisible: false,
+    isAdminLoggedIn: false,
+    adminPassword: '',
+    logoClickCount: 0,
+    bookings: JSON.parse(localStorage.getItem('sonnengleiter-bookings') || '[]'),
+    
     acceptCookies() {
         localStorage.setItem('cookie-consent', 'true');
         this.isCookieAccepted = true;
@@ -90,9 +96,52 @@
     handleBooking(e) {
         e.preventDefault();
         this.bookingStatus = 'submitting';
+        
+        // Extract form data
+        const formData = new FormData(e.target);
+        const newBooking = {
+            id: Date.now(),
+            dateRequest: new Date().toLocaleDateString('de-DE'),
+            start: formData.get('start'),
+            end: formData.get('end'),
+            guests: formData.get('guests'),
+            model: formData.get('model'),
+            email: formData.get('email'),
+            status: 'Neu'
+        };
+
+        // Save to state and localStorage
+        this.bookings.push(newBooking);
+        localStorage.setItem('sonnengleiter-bookings', JSON.stringify(this.bookings));
+
         setTimeout(() => {
             this.bookingStatus = 'success';
         }, 1500);
+    },
+    handleLogoClick() {
+        this.logoClickCount++;
+        if (this.logoClickCount >= 5) {
+            this.isAdminVisible = true;
+            this.logoClickCount = 0;
+        }
+        setTimeout(() => { if(this.logoClickCount > 0) this.logoClickCount = 0; }, 5000);
+    },
+    login() {
+        if (this.adminPassword === 'ahoi2024') {
+            this.isAdminLoggedIn = true;
+            this.adminPassword = '';
+        } else {
+            alert('Falsches Passwort');
+            this.adminPassword = '';
+        }
+    },
+    logout() {
+        this.isAdminLoggedIn = false;
+        this.isAdminVisible = false;
+    },
+    deleteBooking(id) {
+        this.bookings = this.bookings.filter(b => b.id !== id);
+        localStorage.setItem('sonnengleiter-bookings', JSON.stringify(this.bookings));
     }
 }">
 
@@ -100,7 +149,7 @@
     <nav class="fixed top-0 w-full z-50 bg-brand-navy text-brand-cream py-4 px-8 shrink-0 shadow-lg border-b border-brand-brown/10">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
             <div class="flex items-center gap-2">
-                <div class="w-10 h-10 bg-brand-brown rounded-full flex items-center justify-center text-xl shadow-md cursor-pointer">
+                <div @click="handleLogoClick" class="w-10 h-10 bg-brand-brown rounded-full flex items-center justify-center text-xl shadow-md cursor-pointer select-none">
                     ⚓
                 </div>
                 <h1 class="text-2xl font-bold tracking-tight uppercase">
@@ -169,7 +218,7 @@
             class="opacity-0 translate-y-4 transition-all duration-700"
         >
             <h1 class="text-5xl md:text-7xl font-serif italic text-white mb-6 drop-shadow-2xl leading-tight">
-                Freiheit auf dem Wasser.
+                Freiheit auf dem See.
             </h1>
             <p class="text-lg md:text-xl text-slate-100 opacity-90 mb-10 max-w-2xl mx-auto leading-relaxed">
                 Erleben Sie unvergessliche Tage auf unseren modernen Hausflößen. Rustikaler Charme trifft auf höchsten Komfort in den schönsten Buchten am Plauer See.
@@ -279,7 +328,7 @@
                 <div class="p-10 flex-grow">
                     <span class="text-[10px] uppercase opacity-60 tracking-wider font-bold mb-2 block">Kategorie</span>
                     <h3 class="text-2xl font-bold text-brand-navy mb-4 leading-tight">Event-Floß "Alte Liebe"</h3>
-                    <p class="text-gray-600 mb-8 leading-relaxed text-sm">Der ideale Ort für Firmenfeiern oder Geburtstage auf dem Wasser.</p>
+                    <p class="text-gray-600 mb-8 leading-relaxed text-sm">Der ideale Ort für Firmenfeiern oder Geburtstage auf dem See.</p>
                     <div class="mt-2 text-xs opacity-80 grid grid-cols-1 gap-3 font-mono mb-10">
                         <div class="flex items-center gap-3"><div class="w-1.5 h-1.5 rounded-full bg-brand-brown"></div>Bis zu 15 Personen</div>
                         <div class="flex items-center gap-3"><div class="w-1.5 h-1.5 rounded-full bg-brand-brown"></div>Musikanlage</div>
@@ -352,11 +401,11 @@
                   <div class="grid grid-cols-2 gap-4">
                     <div class="relative">
                       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-brand-brown opacity-50 lucide lucide-calendar"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
-                      <input required type="date" class="form-input pl-10" />
+                      <input name="start" required type="date" class="form-input pl-10" />
                     </div>
                     <div class="relative">
                       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-brand-brown opacity-50 lucide lucide-calendar"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
-                      <input required type="date" class="form-input pl-10" />
+                      <input name="end" required type="date" class="form-input pl-10" />
                     </div>
                   </div>
                 </div>
@@ -365,7 +414,7 @@
                   <label class="text-[10px] font-bold text-brand-darkBrown uppercase tracking-widest">Gäste</label>
                   <div class="relative">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-brand-brown opacity-50 lucide lucide-users"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-                    <input required type="number" min="1" max="20" placeholder="Personen" class="form-input pl-10" />
+                    <input name="guests" required type="number" min="1" max="20" placeholder="Personen" class="form-input pl-10" />
                   </div>
                 </div>
                 
@@ -373,7 +422,7 @@
                   <label class="text-[10px] font-bold text-brand-darkBrown uppercase tracking-widest">Modell</label>
                   <div class="relative">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-brand-brown opacity-50 pointer-events-none lucide lucide-ship"><path d="M2 21c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1 .6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/><path d="M19.38 20A11.6 11.6 0 0 0 21 14l-9-4-9 4c0 2.9.94 5.34 2.38 7"/><path d="M11 13c0-2.209 1.791-4 4-4s4 1.791 4 4"/><path d="M7 11V3l4-1 4 1v2"/><path d="m11 8 4-1"/></svg>
-                    <select required class="form-input pl-10 appearance-none cursor-pointer">
+                    <select name="model" required class="form-input pl-10 appearance-none cursor-pointer">
                       <option value="">Wählen...</option>
                       <option value="adventure">Abenteuer-Floß</option>
                       <option value="luxury">Luxus-Hausfloß</option>
@@ -386,7 +435,7 @@
                   <label class="text-[10px] font-bold text-brand-darkBrown uppercase tracking-widest">E-Mail</label>
                   <div class="relative">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-brand-brown opacity-50 lucide lucide-mail"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
-                    <input required type="email" placeholder="kapitaen@meer.de" class="form-input pl-10" />
+                    <input name="email" required type="email" placeholder="kapitaen@meer.de" class="form-input pl-10" />
                   </div>
                 </div>
                 
@@ -470,7 +519,7 @@
             <div class="flex items-center gap-6 text-sm text-brand-navy">
             <span class="text-3xl drop-shadow-md">🍪</span>
             <p class="leading-relaxed">
-                Wir verwenden Cookies zur Optimierung Ihres Erlebnisses auf dem Wasser. Informationen finden Sie in unserer <a href="#" class="underline font-bold hover:text-brand-brown">Datenschutzerklärung</a>.
+                Wir verwenden Cookies zur Optimierung Ihres Erlebnisses auf dem See. Informationen finden Sie in unserer <a href="#" class="underline font-bold hover:text-brand-brown">Datenschutzerklärung</a>.
             </p>
             </div>
             <div class="flex gap-3 shrink-0">
@@ -490,6 +539,67 @@
         </div>
     </div>
 
+    <!-- Admin Portal -->
+    <div x-show="isAdminVisible" x-cloak class="fixed inset-0 z-[200] flex items-center justify-center p-4">
+        <div class="absolute inset-0 bg-brand-navy/80 backdrop-blur-sm" @click="logout()"></div>
+        
+        <!-- Login Modal -->
+        <div x-show="!isAdminLoggedIn" class="relative bg-white w-full max-w-md rounded-2xl p-8 shadow-2xl flex flex-col gap-6">
+            <h2 class="text-2xl font-bold font-serif italic text-brand-navy">Admin Zugang</h2>
+            <div class="space-y-4">
+                <input type="password" x-model="adminPassword" placeholder="Passwort" class="form-input" @keyup.enter="login()">
+                <button @click="login()" class="w-full bg-brand-brown text-white py-3 rounded-xl font-bold uppercase tracking-widest hover:bg-brand-darkBrown transition-all">Anmelden</button>
+            </div>
+            <button @click="logout()" class="text-xs text-brand-navy/50 hover:underline">Abbrechen</button>
+        </div>
+
+        <!-- Dashboard Modal -->
+        <div x-show="isAdminLoggedIn" class="relative bg-white w-full max-w-5xl rounded-2xl shadow-2xl flex flex-col h-[80vh] overflow-hidden">
+            <div class="bg-brand-navy p-6 flex justify-between items-center text-brand-cream">
+                <h2 class="text-xl font-bold font-serif italic">Buchungs-Übersicht (Backend)</h2>
+                <button @click="logout()" class="p-2 hover:bg-white/10 rounded-lg"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></button>
+            </div>
+            <div class="overflow-auto flex-grow p-6">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="text-[10px] uppercase font-bold tracking-widest text-brand-navy/50 border-b">
+                            <th class="py-4">Datum</th>
+                            <th class="py-4">Modell</th>
+                            <th class="py-4">Zeitraum</th>
+                            <th class="py-4">Gäste</th>
+                            <th class="py-4">E-Mail</th>
+                            <th class="py-4 text-right">Aktion</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-xs">
+                        <template x-for="booking in bookings" :key="booking.id">
+                            <tr class="border-b hover:bg-brand-cream/50 transition-colors">
+                                <td class="py-4" x-text="booking.dateRequest"></td>
+                                <td class="py-4 font-bold" x-text="booking.model"></td>
+                                <td class="py-4 italic" x-text="booking.start + ' - ' + booking.end"></td>
+                                <td class="py-4" x-text="booking.guests"></td>
+                                <td class="py-4" x-text="booking.email"></td>
+                                <td class="py-4 text-right">
+                                    <button @click="deleteBooking(booking.id)" class="text-red-500 hover:text-red-700 p-2">
+                                        Löschen
+                                    </button>
+                                </td>
+                            </tr>
+                        </template>
+                        <template x-if="bookings.length === 0">
+                            <tr>
+                                <td colspan="6" class="py-12 text-center text-brand-navy/30 italic">Keine Buchungen vorhanden.</td>
+                            </tr>
+                        </template>
+                    </tbody>
+                </table>
+            </div>
+            <div class="p-6 bg-brand-cream border-t flex justify-between items-center">
+                <p class="text-[10px] text-brand-navy/50 uppercase font-bold">Total: <span x-text="bookings.length"></span> Buchungen</p>
+                <button @click="logout()" class="text-xs bg-brand-navy text-white px-4 py-2 rounded-lg font-bold">Abmelden</button>
+            </div>
+        </div>
+    </div>
+
 </body>
 </html>
-
