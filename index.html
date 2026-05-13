@@ -162,13 +162,11 @@
             
             <div class="hidden md:flex gap-8 items-center uppercase text-[10px] font-semibold tracking-widest">
                 <a href="#fleet" class="hover:text-brand-brown transition-colors">Unsere Flotte</a>
-                <a href="#booking" class="hover:text-brand-brown transition-colors">Buchen</a>
-                <a href="#about" class="hover:text-brand-brown transition-colors">Über uns</a>
                 <button 
                   @click="document.getElementById('booking').scrollIntoView({ behavior: 'smooth' })"
                   class="px-6 py-2 bg-brand-brown text-white rounded-xl hover:bg-brand-darkBrown shadow-md transition-all font-bold"
                 >
-                  Jetzt mieten
+                  Termin buchen
                 </button>
             </div>
 
@@ -196,8 +194,6 @@
         >
             <div class="flex flex-col gap-4 p-6">
                 <a href="#fleet" @click="isNavOpen = false">Unsere Flotte</a>
-                <a href="#booking" @click="isNavOpen = false">Buchen</a>
-                <a href="#about" @click="isNavOpen = false">Über uns</a>
                 <a href="#booking" class="text-brand-brown font-bold" @click="isNavOpen = false">Kontakt</a>
             </div>
         </div>
@@ -207,7 +203,7 @@
     <section class="relative h-screen overflow-hidden flex items-center justify-center text-center">
         <div class="absolute inset-0 z-0">
             <img 
-                src="https://images.unsplash.com/photo-1544452071-7f938f3883b6?auto=format&fit=crop&q=80&w=2000" 
+                src="https://workerfashion.com/dateien/sonnengleiter_header.png" 
                 alt="Malerische Aussicht auf den Plauer See"
                 class="w-full h-full object-cover hero-animate"
             >
@@ -221,23 +217,17 @@
             class="opacity-0 translate-y-4 transition-all duration-700"
         >
             <h1 class="text-5xl md:text-7xl font-serif italic text-white mb-6 drop-shadow-2xl leading-tight">
-                Freiheit auf dem See.
+                Freiheit auf dem Wasser.
             </h1>
             <p class="text-lg md:text-xl text-slate-100 opacity-90 mb-10 max-w-2xl mx-auto leading-relaxed">
-                Erleben Sie unvergessliche Tage auf unseren modernen Hausflößen. Rustikaler Charme trifft auf höchsten Komfort in den schönsten Buchten am Plauer See.
+                Entdecken Sie den Plauer See mit unseren solargetriebenen Hausflößen. Nachhaltig, komfortabel und einzigartig.
             </p>
             <div class="flex flex-col sm:flex-row gap-6 justify-center">
                 <button 
                     @click="document.getElementById('booking').scrollIntoView({ behavior: 'smooth' })"
                     class="px-8 py-4 bg-brand-brown text-white rounded-xl font-bold uppercase tracking-widest hover:bg-brand-darkBrown shadow-2xl transition-all"
                 >
-                    Verfügbarkeit prüfen
-                </button>
-                <button 
-                    @click="document.getElementById('fleet').scrollIntoView({ behavior: 'smooth' })"
-                    class="px-8 py-4 bg-white/10 text-white backdrop-blur-md rounded-xl font-bold uppercase tracking-widest hover:bg-white/20 border-2 border-white/30 transition-all"
-                >
-                    Was wir bieten
+                    Termin buchen
                 </button>
             </div>
         </div>
@@ -281,18 +271,18 @@
             <!-- Adventure -->
             <div class="bg-white rounded-2xl overflow-hidden shadow-2xl border-4 border-brand-darkBrown/5 flex flex-col group transition-all transform hover:-translate-y-2">
                 <div class="h-64 overflow-hidden relative">
-                    <img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&q=80&w=1000" alt="Abenteuer-Floß" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                    <img src="https://workerfashion.com/dateien/solarfloss.png" alt="Solarfloß" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
                     <div class="absolute inset-0 bg-brand-navy/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 </div>
                 <div class="p-10 flex-grow">
                     <span class="text-[10px] uppercase opacity-60 tracking-wider font-bold mb-2 block">Kategorie</span>
-                    <h3 class="text-2xl font-bold text-brand-navy mb-4 leading-tight">Abenteuer-Floß</h3>
-                    <p class="text-gray-600 mb-8 leading-relaxed text-sm">Perfekt für Naturfreunde und Minimalisten. Kompakt, rustikal und wendig.</p>
+                    <h3 class="text-2xl font-bold text-brand-navy mb-4 leading-tight">Solarfloß</h3>
+                    <p class="text-gray-600 mb-8 leading-relaxed text-sm">Lautlos und nachhaltig über den See gleiten. Erleben Sie die Natur mit modernster Solartechnik.</p>
                     <div class="mt-2 text-xs opacity-80 grid grid-cols-1 gap-3 font-mono mb-10">
                         <div class="flex items-center gap-3"><div class="w-1.5 h-1.5 rounded-full bg-brand-brown"></div>Bis zu 4 Personen</div>
-                        <div class="flex items-center gap-3"><div class="w-1.5 h-1.5 rounded-full bg-brand-brown"></div>Camping-WC</div>
-                        <div class="flex items-center gap-3"><div class="w-1.5 h-1.5 rounded-full bg-brand-brown"></div>Gasgrill inklusive</div>
+                        <div class="flex items-center gap-3"><div class="w-1.5 h-1.5 rounded-full bg-brand-brown"></div>Solarantrieb</div>
                         <div class="flex items-center gap-3"><div class="w-1.5 h-1.5 rounded-full bg-brand-brown"></div>Führerscheinfrei</div>
+                        <div class="flex items-center gap-3"><div class="w-1.5 h-1.5 rounded-full bg-brand-brown"></div>Küchenzeile & WC</div>
                     </div>
                     <button class="w-full py-4 bg-brand-brown hover:bg-brand-darkBrown text-white rounded-xl font-bold uppercase tracking-widest transition-all shadow-md flex items-center justify-center gap-2 group/btn">
                         Ansehen <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right group-hover/btn:translate-x-1 transition-transform"><path d="m9 18 6-6-6-6"/></svg>
@@ -300,21 +290,21 @@
                 </div>
             </div>
 
-            <!-- Luxury -->
+            <!-- SUB-Board -->
             <div class="bg-white rounded-2xl overflow-hidden shadow-2xl border-4 border-brand-darkBrown/5 flex flex-col group transition-all transform hover:-translate-y-2">
                 <div class="h-64 overflow-hidden relative">
-                    <img src="https://images.unsplash.com/photo-1569263979104-865ab7cd8d13?auto=format&fit=crop&q=80&w=1000" alt="Luxus-Hausfloß" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                    <img src="https://workerfashion.com/dateien/subboard.png" alt="SUB-Board" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
                     <div class="absolute inset-0 bg-brand-navy/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 </div>
                 <div class="p-10 flex-grow">
                     <span class="text-[10px] uppercase opacity-60 tracking-wider font-bold mb-2 block">Kategorie</span>
-                    <h3 class="text-2xl font-bold text-brand-navy mb-4 leading-tight">Luxus-Hausfloß</h3>
-                    <p class="text-gray-600 mb-8 leading-relaxed text-sm">Ihr schwimmendes Hotelzimmer mit allem Komfort für entspannte Tage.</p>
+                    <h3 class="text-2xl font-bold text-brand-navy mb-4 leading-tight">SUB-Board</h3>
+                    <p class="text-gray-600 mb-8 leading-relaxed text-sm">Entdecken Sie die Freiheit auf dem Wasser auf ganz sportliche Weise.</p>
                     <div class="mt-2 text-xs opacity-80 grid grid-cols-1 gap-3 font-mono mb-10">
-                        <div class="flex items-center gap-3"><div class="w-1.5 h-1.5 rounded-full bg-brand-brown"></div>Bis zu 6 Personen</div>
-                        <div class="flex items-center gap-3"><div class="w-1.5 h-1.5 rounded-full bg-brand-brown"></div>Echte Betten</div>
-                        <div class="flex items-center gap-3"><div class="w-1.5 h-1.5 rounded-full bg-brand-brown"></div>Vollwertige Küche</div>
-                        <div class="flex items-center gap-3"><div class="w-1.5 h-1.5 rounded-full bg-brand-brown"></div>Dachterrasse</div>
+                        <div class="flex items-center gap-3"><div class="w-1.5 h-1.5 rounded-full bg-brand-brown"></div>1 Person pro Board</div>
+                        <div class="flex items-center gap-3"><div class="w-1.5 h-1.5 rounded-full bg-brand-brown"></div>Inklusive Paddel</div>
+                        <div class="flex items-center gap-3"><div class="w-1.5 h-1.5 rounded-full bg-brand-brown"></div>Leihgebühr pro Tag</div>
+                        <div class="flex items-center gap-3"><div class="w-1.5 h-1.5 rounded-full bg-brand-brown"></div>Schwimmweste inkl.</div>
                     </div>
                     <button class="w-full py-4 bg-brand-brown hover:bg-brand-darkBrown text-white rounded-xl font-bold uppercase tracking-widest transition-all shadow-md flex items-center justify-center gap-2 group/btn">
                         Ansehen <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right group-hover/btn:translate-x-1 transition-transform"><path d="m9 18 6-6-6-6"/></svg>
@@ -322,21 +312,21 @@
                 </div>
             </div>
 
-            <!-- Event -->
+            <!-- E-Boot -->
             <div class="bg-white rounded-2xl overflow-hidden shadow-2xl border-4 border-brand-darkBrown/5 flex flex-col group transition-all transform hover:-translate-y-2">
                 <div class="h-64 overflow-hidden relative">
-                    <img src="/src/assets/images/regenerated_image_1778592856244.png" alt="Event-Floß" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                    <img src="https://workerfashion.com/dateien/eboot.png" alt="E-Boot" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
                     <div class="absolute inset-0 bg-brand-navy/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 </div>
                 <div class="p-10 flex-grow">
                     <span class="text-[10px] uppercase opacity-60 tracking-wider font-bold mb-2 block">Kategorie</span>
-                    <h3 class="text-2xl font-bold text-brand-navy mb-4 leading-tight">Event-Floß "Alte Liebe"</h3>
-                    <p class="text-gray-600 mb-8 leading-relaxed text-sm">Der ideale Ort für Firmenfeiern oder Geburtstage auf dem See.</p>
+                    <h3 class="text-2xl font-bold text-brand-navy mb-4 leading-tight">E-Boot</h3>
+                    <p class="text-gray-600 mb-8 leading-relaxed text-sm">Maximaler Fahrspaß trifft auf Nachhaltigkeit. Ohne Abgase und extrem leise.</p>
                     <div class="mt-2 text-xs opacity-80 grid grid-cols-1 gap-3 font-mono mb-10">
-                        <div class="flex items-center gap-3"><div class="w-1.5 h-1.5 rounded-full bg-brand-brown"></div>Bis zu 15 Personen</div>
-                        <div class="flex items-center gap-3"><div class="w-1.5 h-1.5 rounded-full bg-brand-brown"></div>Musikanlage</div>
-                        <div class="flex items-center gap-3"><div class="w-1.5 h-1.5 rounded-full bg-brand-brown"></div>Großer Buffet-Bereich</div>
-                        <div class="flex items-center gap-3"><div class="w-1.5 h-1.5 rounded-full bg-brand-brown"></div>Sonnendeck</div>
+                        <div class="flex items-center gap-3"><div class="w-1.5 h-1.5 rounded-full bg-brand-brown"></div>Bis zu 2 Personen</div>
+                        <div class="flex items-center gap-3"><div class="w-1.5 h-1.5 rounded-full bg-brand-brown"></div>100% Elektrisch</div>
+                        <div class="flex items-center gap-3"><div class="w-1.5 h-1.5 rounded-full bg-brand-brown"></div>Einweisung inkl.</div>
+                        <div class="flex items-center gap-3"><div class="w-1.5 h-1.5 rounded-full bg-brand-brown"></div>Adrenalin garantiert</div>
                     </div>
                     <button class="w-full py-4 bg-brand-brown hover:bg-brand-darkBrown text-white rounded-xl font-bold uppercase tracking-widest transition-all shadow-md flex items-center justify-center gap-2 group/btn">
                         Ansehen <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right group-hover/btn:translate-x-1 transition-transform"><path d="m9 18 6-6-6-6"/></svg>
@@ -354,7 +344,7 @@
               <h2 class="text-4xl font-bold mb-4 font-serif italic">Jetzt Anfragen</h2>
               <div class="h-1 w-12 bg-brand-brown mb-8"></div>
               <p class="mb-10 text-slate-300 leading-relaxed">
-                Planen Sie Ihre Auszeit. Wir senden Ihnen innerhalb von 24 Stunden ein unverbindliches Angebot für Ihr Wunschfloß.
+                Planen Sie Ihre Auszeit. Wir senden Ihnen innerhalb von 24 Stunden ein unverbindliches Angebot für Ihr Wunschfloß. Wir sind von 9 bis 19 Uhr für Sie unter 0170 22 92 911 erreichbar.
               </p>
               <div class="space-y-8">
                 <div class="flex items-start gap-4">
@@ -362,8 +352,8 @@
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-phone"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l2.27-2.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
                   </div>
                   <div>
-                    <p class="text-[10px] uppercase opacity-50 font-bold tracking-widest mb-1">Direktruf</p>
-                    <p class="font-medium">+49 (0) 123 456 789</p>
+                    <p class="text-[10px] uppercase opacity-50 font-bold tracking-widest mb-1">Direktruf (9 - 19 Uhr)</p>
+                    <p class="font-medium">0170 22 92 911</p>
                   </div>
                 </div>
                 <div class="flex items-start gap-4">
@@ -403,6 +393,7 @@
                   <label class="text-[10px] font-bold text-brand-darkBrown uppercase tracking-widest">Reisezeitraum & Uhrzeit</label>
                   <div class="grid grid-cols-2 gap-4">
                     <div class="flex flex-col gap-2">
+                      <span class="text-[9px] uppercase font-bold text-brand-navy/40 tracking-wider">Beginn</span>
                       <div class="relative">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-brand-brown opacity-50 lucide lucide-calendar"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
                         <input name="start" required type="date" class="form-input pl-10" />
@@ -413,6 +404,7 @@
                       </div>
                     </div>
                     <div class="flex flex-col gap-2">
+                      <span class="text-[9px] uppercase font-bold text-brand-navy/40 tracking-wider">Ende</span>
                       <div class="relative">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-brand-brown opacity-50 lucide lucide-calendar"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
                         <input name="end" required type="date" class="form-input pl-10" />
@@ -439,9 +431,9 @@
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-brand-brown opacity-50 pointer-events-none lucide lucide-ship"><path d="M2 21c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1 .6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/><path d="M19.38 20A11.6 11.6 0 0 0 21 14l-9-4-9 4c0 2.9.94 5.34 2.38 7"/><path d="M11 13c0-2.209 1.791-4 4-4s4 1.791 4 4"/><path d="M7 11V3l4-1 4 1v2"/><path d="m11 8 4-1"/></svg>
                     <select name="model" required class="form-input pl-10 appearance-none cursor-pointer">
                       <option value="">Wählen...</option>
-                      <option value="adventure">Abenteuer-Floß</option>
-                      <option value="luxury">Luxus-Hausfloß</option>
-                      <option value="event">Event-Floß</option>
+                      <option value="solar">Solarfloß</option>
+                      <option value="sub">SUB-Board</option>
+                      <option value="jetski">E-Boot</option>
                     </select>
                   </div>
                 </div>
@@ -458,7 +450,7 @@
                   <label class="text-[10px] font-bold text-brand-darkBrown uppercase tracking-widest">Handynummer</label>
                   <div class="relative">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-brand-brown opacity-50 lucide lucide-phone"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l2.27-2.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-                    <input name="phone" required type="tel" placeholder="+49 123 4567890" class="form-input pl-10" />
+                    <input name="phone" required type="tel" placeholder="0170 22 92 911" class="form-input pl-10" />
                   </div>
                 </div>
                 
