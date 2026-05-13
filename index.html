@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sonnengleiter - Exklusive Floßvermietung am Plauer See</title>
+    <link rel="icon" type="image/png" href="https://workerfashion.com/dateien/sonngleitericon200px.png">
     
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -106,7 +107,7 @@
             startTime: formData.get('startTime'),
             end: formData.get('end'),
             endTime: formData.get('endTime'),
-            guests: formData.get('guests'),
+            name: formData.get('name'),
             model: formData.get('model'),
             email: formData.get('email'),
             phone: formData.get('phone'),
@@ -152,8 +153,8 @@
     <nav class="fixed top-0 w-full z-50 bg-brand-navy text-brand-cream py-4 px-8 shrink-0 shadow-lg border-b border-brand-brown/10">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
             <div class="flex items-center gap-2">
-                <div @click="handleLogoClick" class="w-10 h-10 bg-brand-brown rounded-full flex items-center justify-center text-xl shadow-md cursor-pointer select-none">
-                    ⚓
+                <div @click="handleLogoClick" class="w-10 h-10 bg-brand-brown rounded-full flex items-center justify-center shadow-md cursor-pointer select-none overflow-hidden">
+                    <img src="https://workerfashion.com/dateien/sonngleitericon200px.png" alt="Logo" class="w-full h-full object-cover">
                 </div>
                 <h1 class="text-2xl font-bold tracking-tight uppercase">
                     SONNEN<span class="font-light">GLEITER</span>
@@ -284,9 +285,6 @@
                         <div class="flex items-center gap-3"><div class="w-1.5 h-1.5 rounded-full bg-brand-brown"></div>Führerscheinfrei</div>
                         <div class="flex items-center gap-3"><div class="w-1.5 h-1.5 rounded-full bg-brand-brown"></div>Küchenzeile & WC</div>
                     </div>
-                    <button class="w-full py-4 bg-brand-brown hover:bg-brand-darkBrown text-white rounded-xl font-bold uppercase tracking-widest transition-all shadow-md flex items-center justify-center gap-2 group/btn">
-                        Ansehen <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right group-hover/btn:translate-x-1 transition-transform"><path d="m9 18 6-6-6-6"/></svg>
-                    </button>
                 </div>
             </div>
 
@@ -306,9 +304,6 @@
                         <div class="flex items-center gap-3"><div class="w-1.5 h-1.5 rounded-full bg-brand-brown"></div>Leihgebühr pro Tag</div>
                         <div class="flex items-center gap-3"><div class="w-1.5 h-1.5 rounded-full bg-brand-brown"></div>Schwimmweste inkl.</div>
                     </div>
-                    <button class="w-full py-4 bg-brand-brown hover:bg-brand-darkBrown text-white rounded-xl font-bold uppercase tracking-widest transition-all shadow-md flex items-center justify-center gap-2 group/btn">
-                        Ansehen <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right group-hover/btn:translate-x-1 transition-transform"><path d="m9 18 6-6-6-6"/></svg>
-                    </button>
                 </div>
             </div>
 
@@ -328,9 +323,6 @@
                         <div class="flex items-center gap-3"><div class="w-1.5 h-1.5 rounded-full bg-brand-brown"></div>Einweisung inkl.</div>
                         <div class="flex items-center gap-3"><div class="w-1.5 h-1.5 rounded-full bg-brand-brown"></div>Adrenalin garantiert</div>
                     </div>
-                    <button class="w-full py-4 bg-brand-brown hover:bg-brand-darkBrown text-white rounded-xl font-bold uppercase tracking-widest transition-all shadow-md flex items-center justify-center gap-2 group/btn">
-                        Ansehen <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right group-hover/btn:translate-x-1 transition-transform"><path d="m9 18 6-6-6-6"/></svg>
-                    </button>
                 </div>
             </div>
         </div>
@@ -418,10 +410,10 @@
                 </div>
                 
                 <div class="space-y-2">
-                  <label class="text-[10px] font-bold text-brand-darkBrown uppercase tracking-widest">Gäste</label>
+                  <label class="text-[10px] font-bold text-brand-darkBrown uppercase tracking-widest">Name</label>
                   <div class="relative">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-brand-brown opacity-50 lucide lucide-users"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-                    <input name="guests" required type="number" min="1" max="20" placeholder="Personen" class="form-input pl-10" />
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-brand-brown opacity-50 lucide lucide-user"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                    <input name="name" required type="text" placeholder="Vorname & Nachname" class="form-input pl-10" />
                   </div>
                 </div>
                 
@@ -479,37 +471,35 @@
         <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-16 mb-24">
           <div class="md:col-span-2">
             <div class="flex items-center gap-3 mb-8">
-              <div class="w-12 h-12 bg-brand-brown rounded-full flex items-center justify-center text-2xl shadow-lg">⚓</div>
+              <div class="w-12 h-12 bg-brand-brown rounded-full flex items-center justify-center shadow-lg overflow-hidden">
+                <img src="https://workerfashion.com/dateien/sonngleitericon200px.png" alt="Logo" class="w-full h-full object-cover">
+              </div>
               <h1 class="text-3xl font-bold tracking-tight uppercase">SONNEN<span class="font-light">GLEITER</span></h1>
             </div>
             <p class="text-slate-400 max-w-sm leading-relaxed italic">
               "Freiheit ist, wenn das Ufer langsam kleiner wird." – Wir machen Wasserwandern zum unvergesslichen Erlebnis.
             </p>
           </div>
-          <div>
-            <h4 class="font-bold uppercase text-xs tracking-widest text-brand-brown mb-8 underline decoration-2 underline-offset-8">Navigation</h4>
-            <ul class="space-y-4 text-slate-400 text-sm">
-              <li><a href="#" class="hover:text-white transition-colors">Startseite</a></li>
-              <li><a href="#fleet" class="hover:text-white transition-colors">Unsere Flotte</a></li>
-              <li><a href="#booking" class="hover:text-white transition-colors">Jetzt Buchen</a></li>
-              <li><a href="#" class="hover:text-white transition-colors">Routenplaner</a></li>
-            </ul>
-          </div>
-          <div>
-            <h4 class="font-bold uppercase text-xs tracking-widest text-brand-brown mb-8 underline decoration-2 underline-offset-8">Rechtliches</h4>
-            <ul class="space-y-4 text-slate-400 text-sm">
-              <li><a href="#" class="hover:text-white transition-colors">Impressum</a></li>
-              <li><a href="#" class="hover:text-white transition-colors">Datenschutz</a></li>
-              <li><a href="#" class="hover:text-white transition-colors">AGB</a></li>
-            </ul>
+          <div class="md:col-start-4 md:text-right">
+            <h4 class="font-bold uppercase text-xs tracking-widest text-brand-brown mb-8 underline decoration-2 underline-offset-8">Impressum</h4>
+            <div class="text-slate-400 text-sm leading-relaxed space-y-1">
+              <p>Sonnengleiter</p>
+              <p>Matthias Müller</p>
+              <p>Waldstrasse 4</p>
+              <p>14612 Falkensee</p>
+              <p>0170 22 92 911</p>
+              <p class="pt-2">ahoi@sonnengleiter.de</p>
+            </div>
           </div>
         </div>
         
         <div class="max-w-7xl mx-auto border-t border-white/10 pt-12 flex flex-col md:flex-row justify-between items-center gap-6 text-[10px] uppercase font-bold tracking-widest text-white/30">
-          <p>© <span x-text="new Date().getFullYear()"></span> Sonnengleiter Gmbh.</p>
-          <div class="flex gap-8">
-            <span>Berlin-Brandenburg</span>
-            <span>Est. 2024</span>
+          <div class="flex flex-col md:flex-row items-center gap-4 md:gap-8">
+            <p>© <span x-text="new Date().getFullYear()"></span> Sonnengleiter.</p>
+            <div class="flex gap-4 border-l border-white/10 pl-8 ml-0 md:ml-0">
+               <a href="https://www.e-recht24.de/muster-datenschutzerklaerung.html" target="_blank" rel="noopener noreferrer" class="hover:text-white transition-colors">Datenschutz</a>
+               <a href="https://www.e-recht24.de/muster-agb.html" target="_blank" rel="noopener noreferrer" class="hover:text-white transition-colors">AGB</a>
+            </div>
           </div>
           <div class="flex gap-6">
             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="cursor-pointer hover:text-brand-brown transition-colors lucide lucide-instagram"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
@@ -581,7 +571,7 @@
                             <th class="py-4">Anfrage</th>
                             <th class="py-4">Modell</th>
                             <th class="py-4">Datum & Zeit</th>
-                            <th class="py-4">Gäste</th>
+                            <th class="py-4">Name</th>
                             <th class="py-4">Kontakt</th>
                             <th class="py-4 text-right">Aktion</th>
                         </tr>
@@ -595,7 +585,7 @@
                                     <div x-text="booking.start + ' (' + booking.startTime + ')'"></div>
                                     <div class="text-[10px] text-brand-navy/40" x-text="booking.end + ' (' + booking.endTime + ')'"></div>
                                 </td>
-                                <td class="py-4" x-text="booking.guests"></td>
+                                <td class="py-4" x-text="booking.name"></td>
                                 <td class="py-4">
                                     <div x-text="booking.email"></div>
                                     <div class="text-[10px] text-brand-navy/60" x-text="booking.phone"></div>
